@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7DBB38FE-6340-44C5-803F-62B7B9AB730F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>VerificaAposentadoriaEngine</RootNamespace>
-    <AssemblyName>VerificaAposentadoriaEngine</AssemblyName>
+    <ProjectGuid>{54BC0BF3-BDDF-4B15-B477-1A61B3F8F0A0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>VerificaAposentadoriaApp</RootNamespace>
+    <AssemblyName>VerificaAposentadoriaApp</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>VerificaAposentadoriaApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,9 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\DataHoraHelper.cs" />
-    <Compile Include="Models\EmpregadoModel.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VerificaAposentadoriaEngine\VerificaAposentadoriaEngine.csproj">
+      <Project>{7dbb38fe-6340-44c5-803f-62b7b9ab730f}</Project>
+      <Name>VerificaAposentadoriaEngine</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
