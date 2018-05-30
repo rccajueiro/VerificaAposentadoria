@@ -22,5 +22,13 @@ namespace VerificaAposentadoriaTest.Helpers
             Assert.AreEqual(30, valor);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException), DataHoraHelper.EXCEPTION_MESSAGE_DATA_INVALIDA)]
+        public void TestDiferencaEmAnosDataInvalida()
+        {
+            DataHoraHelper.DiferencaEmAnos(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 1));
+        }
+
+
     }
 }

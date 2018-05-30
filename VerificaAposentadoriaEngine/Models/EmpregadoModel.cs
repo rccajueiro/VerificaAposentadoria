@@ -11,6 +11,7 @@ namespace VerificaAposentadoriaEngine.Models
     {
         public const string EXCEPTION_MENSAGEM_NOME_NULL = "Nome não pode ser nulo";
         public const string EXCEPTION_MENSAGEM_NOME_VAZIO = "O nome não pode ser vazio";
+        public const string EXCEPTION_MENSAGEM_DATA_NASCIMENTO_INVALIDA = "Data de nascimento inválida";
         public const string EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_DATA_ATUAL = "Data de nascimento não pode maior que a data atual";
         public const string EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_IDADE = "Empregado deve ser maior de idade";
         public const string EXCEPTION_MENSAGEM_DATA_INGRESSO_MAIOR_DATA_ATUAL = "Data de ingresso não pode ser maior que a data atual.";
@@ -36,8 +37,15 @@ namespace VerificaAposentadoriaEngine.Models
         {
             if (Nome == null) throw new ArgumentNullException(EXCEPTION_MENSAGEM_NOME_NULL);
             if (Nome.Trim() == "") throw new ArgumentException(EXCEPTION_MENSAGEM_NOME_VAZIO);
-            if (DataNascimento > DateTime.Now) throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_DATA_ATUAL);
-            if (DataHoraHelper.DiferencaEmAnos(DataNascimento) < 18) throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_IDADE);
+            if (new DateTime(DataNascimento.Year, DataNascimento.Month, DataNascimento.Day) > new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_DATA_ATUAL);
+            try
+            {
+                if (DataHoraHelper.DiferencaEmAnos(DataNascimento) < 18) throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_NASCIMENTO_MAIOR_IDADE);
+            }
+            catch (ArgumentOutOfRangeException Ex)
+            {
+                throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_NASCIMENTO_INVALIDA);
+            }
             if (new DateTime(DataIngresso.Year, DataIngresso.Month, DataIngresso.Day) > new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)) throw new ArgumentException(EXCEPTION_MENSAGEM_DATA_INGRESSO_MAIOR_DATA_ATUAL);
 
             nome = Nome;
@@ -47,12 +55,26 @@ namespace VerificaAposentadoriaEngine.Models
 
         public int GetIdade()
         {
-            return DataHoraHelper.DiferencaEmAnos(dataNascimento);
+            try
+            { 
+                return DataHoraHelper.DiferencaEmAnos(dataNascimento);
+            }
+            catch (ArgumentOutOfRangeException Ex)
+            {
+                return 0;
+            }
         }
 
         public int GetTempoDeTrabalho()
         {
-            return DataHoraHelper.DiferencaEmAnos(dataIngresso);
+            try
+            { 
+                return DataHoraHelper.DiferencaEmAnos(dataIngresso);
+            }
+            catch (ArgumentOutOfRangeException Ex)
+            {
+                return 0;
+            }
         }
 
         public bool IsAptoAposentadoria()
